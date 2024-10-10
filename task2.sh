@@ -1,18 +1,15 @@
 #!/bin/bash
 
-for file in dataset1/*; do
-  if grep -q "sample" "$file"; then
-    count=$(grep -o "CSC510" "$file" | wc -l)
-    if [ $count -ge 3 ]; then
-      echo "$count $file"
+cd dataset1 && \
+grep -l "sample" file* | \
+while read -r file; do
+    occurrences=$(grep -o "CSC510" "$file" | wc -l)
+    if [ $occurrences -ge 3 ]; then
+        size=$(wc -c < "$file")
+        echo "$file:$occurrences:$size"
     fi
-  fi
-done |
-
-sort -k1,1nr -k2,2nr |
-
-awk '{print "filtered_" substr($2, 6)}' > task2_output.txt
-
-ls -lS dataset1/* | grep "filtered_" | awk '{print $9}' > temp.txt
-paste task2_output.txt temp.txt | sort -k2,2nr -k1,1nr | awk '{print $1}' > final_output.txt
-mv final_output.txt task2_output.txt
+done | \
+sort -t: -k2,2nr -k3,3nr | \
+sed 's/file_/filtered_/' | \
+awk -F'[_:]' '{print $1 "_" $2}' | \
+sort -t_ -k2 -nr
