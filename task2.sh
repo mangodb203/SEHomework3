@@ -1,15 +1,1 @@
-#!/bin/bash
-
-cd dataset1 && \
-grep -l "sample" file* | \
-while read -r file; do
-    occurrences=$(grep -o "CSC510" "$file" | wc -l)
-    if [ $occurrences -ge 3 ]; then
-        size=$(wc -c < "$file")
-        echo "$file:$occurrences:$size"
-    fi
-done | \
-sort -t: -k2,2nr -k3,3nr | \
-sed 's/file_/filtered_/' | \
-awk -F'[_:]' '{print $1 "_" $2}' | \
-sort -t_ -k2 -nr
+grep -rl "sample" ./dataset1 | xargs grep -o "CSC510" | cut -d: -f1| xargs ls -l | uniq -c | grep -E "[3-9] -|[0-9]{2,} -" | gawk '{print $1 ,$6, $10}'| sort -k1,1nr -k2,2nr| sed 's/file/filtered/'| gawk '{print $3}'
