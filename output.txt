@@ -1,0 +1,12 @@
+./dataset1/filtered_20
+./dataset1/filtered_10
+./dataset1/filtered_4
+./dataset1/filtered_14
+./dataset1/filtered_24
+./dataset1/filtered_2
+./dataset1/filtered_22
+./dataset1/filtered_30
+./dataset1/filtered_3
+./dataset1/filtered_23
+./dataset1/filtered_12
+./dataset1/filtered_13
